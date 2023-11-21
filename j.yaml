@@ -11,3 +11,20 @@
       when:
         - ansible_facts['distribution'] == "CentOS"
         - ansible_facts['distribution_major_version'] == "6"
+
+
+----------------------------------------------
+---
+- hosts: dev
+  user: ansible
+  become: yes
+  tasks:
+    - name: update and install java
+      ansible.builtin.apt:
+        name: openjdk-8-jdk
+        update_cache: yes
+        state: present
+      when:
+        - ansible_facts['distribution'] == "Ubuntu"
+        - ansible_facts['distribution_major_version'] == "20"
+
