@@ -1,3 +1,13 @@
-when:
-      - ansible_facts['distribution'] == "CentOS"
-      - ansible_facts['distribution_major_version'] == "6"
+---
+- hosts: dev
+  user: ansible
+  become: true
+  tasks:
+    - name: java install
+      ansible.builtin.apt:
+        name: open-jdk-11
+        state: present
+        cache_update: yes
+      when:
+        - ansible_facts['distribution'] == "CentOS"
+        - ansible_facts['distribution_major_version'] == "6"
