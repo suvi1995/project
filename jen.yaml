@@ -2,6 +2,11 @@
 - hosts: dev
   user: ansible
   become: yes
+  vars:
+    keys:
+      - https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+    repos:
+      - 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
   tasks:
     - name: Add an Apt signing key, uses whichever key is at the URL
       ansible.builtin.apt_key:
@@ -19,8 +24,4 @@
       when:
         - ansible_facts['distribution'] == "Ubuntu"
         - ansible_facts['distribution_major_version'] == "18"
-      vars:
-        keys:
-          - https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-        repos:
-          - 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+      
