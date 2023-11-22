@@ -5,11 +5,11 @@
   tasks:
     - name: Add an Apt signing key, uses whichever key is at the URL
       ansible.builtin.apt_key:
-      url: "{keys}"
+      url: "{{keys}}"
       state: present
     - name: somerepo | apt source
       ansible.builtin.apt_repository:
-        repo: 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+        repo: "{{repos}}" 
         state: present
     - name: update and install jenkins
       ansible.builtin.apt:
@@ -22,3 +22,5 @@
       vars:
         keys:
           - https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+        repos:
+          - 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
