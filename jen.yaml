@@ -5,7 +5,7 @@
   tasks:
     - name: Add an Apt signing key, uses whichever key is at the URL
       ansible.builtin.apt_key:
-      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      url: "{keys}"
       state: present
     - name: somerepo | apt source
       ansible.builtin.apt_repository:
@@ -19,3 +19,6 @@
       when:
         - ansible_facts['distribution'] == "Ubuntu"
         - ansible_facts['distribution_major_version'] == "18"
+      vars:
+        keys:
+          - https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
