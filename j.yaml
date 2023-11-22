@@ -21,7 +21,7 @@
   tasks:
     - name: update and install java
       ansible.builtin.apt:
-        name: openjdk-8-jdk
+        name: openjdk-11-jdk
         update_cache: yes
         state: present
       when:
