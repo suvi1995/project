@@ -1,2 +1,21 @@
 ---
--hosts:
+- hosts: dev
+  user: ansible
+  become: yes
+  tasks:
+    - name: Add an Apt signing key, uses whichever key is at the URL
+      ansible.builtin.apt_key:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      state: present
+    - name: somerepo | apt source
+      ansible.builtin.apt_repository:
+        repo: 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+        state: present
+    - name: update and install jenkins
+      ansible.builtin.apt:
+        name: openjdk-8-jdk
+        update_cache: yes
+        state: present
+      when:
+        - ansible_facts['distribution'] == "Ubuntu"
+        - ansible_facts['distribution_major_version'] == "18"
